@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mitarbeiterliste</title>
+    </head>
+    <body>
+        <!-- Wenn der Parameter mitarbeiter nicht leer ist -->
+        @if(mitarbeiter)
+            <h1>Alle Mitarbeiter</h1>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Adresse</th>
+                    <th>Schuhgroesse</th>
+                    <th>Kostenstelle</th>
+                </tr>
+            @each(ma in mitarbeiter)
+                <tr>
+                    <th>{{ ma.id }}</th>
+                    <th>{{ ma.name }}</th>
+                    <th>{{ ma.adresse }}</th>
+                    <th>{{ ma.schuhgroesse }}</th>
+                    <th>{{ ma.kst }}</th>
+                </tr>
+            @end
+            </table>
+            <a href="/mitarbeiter/neu">Neuen Mitarbeiter erstellen...</a>
+            <label>Mitarbeiter ID</label>
+            <input name="id" id="mitarbeiterID"/>
+            <button onclick="deleteWorker()">Löschen</button>
+            <style>
+                #maloeschen {
+                    margin-top: 10em;
+                }
+            </style>
+            <script>
+                function deleteWorker() {
+                    id = document.getElementById('mitarbeiterID').value
+                    fetch('/mitarbeiter/' + id, { method: 'DELETE', })
+                    .then((res)=>{
+                        window.location.href = '/mitarbeiter'
+                    });
+                }
+            </script>
+        @else
+            <h1>Keine Mitarbeiter vorhanden!</h1>
+            <p>Willst du einen neuen erstellen?</p>
+            @!neuerMitarbeiter()
+        @end
+    </body>
+</html>
